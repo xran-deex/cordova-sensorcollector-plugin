@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-sensorcollector-plugin" version="0.0.1">
+    <name>SensorCollector</name>
+    <description>Cordova SensorCollector Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,sensorcollector</keywords>
+    <dependency id="cordova-plugin-geolocation" />
+    <js-module src="www/sensorcollector.js" name="sensorcollector">
+        <clobbers target="sensorcollector" />
+    </js-module>
+    <platform name="android">
+        <source-file src="src/android/twilight/of/the/devs/cordova/GeomagneticPlugin.java" target-dir="src/twilight/of/the/devs/cordova" />
+        <source-file src="src/android/twilight/of/the/devs/cordova/GeomagnetSensorListener.java" target-dir="src/twilight/of/the/devs/cordova" />
+        <source-file src="src/android/twilight/of/the/devs/cordova/GeomagnetUncalibratedSensorListener.java" target-dir="src/twilight/of/the/devs/cordova" />
+        <source-file src="src/android/twilight/of/the/devs/cordova/WifiCollector.java" target-dir="src/twilight/of/the/devs/cordova" />
+        <source-file src="src/android/twilight/of/the/devs/cordova/CellCollector.java" target-dir="src/twilight/of/the/devs/cordova" />
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+        </config-file>
+        <config-file target="config.xml" parent="/*">
+            <feature name="CellCollector">
+                <param name="android-package" value="twilight.of.the.devs.cordova.CellCollector" />
+                <param name="onload" value="true" />
+            </feature>
+            <feature name="WifiCollector">
+                <param name="android-package" value="twilight.of.the.devs.cordova.WifiCollector" />
+                <param name="onload" value="true" />
+            </feature>
+            <feature name="GeomagneticPlugin">
+                <param name="android-package" value="twilight.of.the.devs.cordova.GeomagneticPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+    </platform>
+</plugin>
