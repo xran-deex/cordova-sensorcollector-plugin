@@ -6,7 +6,7 @@ module.exports = {
             case 'wifi':
                 cordova.exec(callback, function(err){
                     callback('oops');
-                }, "WifiCollector", "scan", []);
+                }, "WifiCollector", "start", []);
                 break;
             case 'cell':
                 cordova.exec(callback, function(err){
@@ -19,6 +19,15 @@ module.exports = {
                 }, "GeomagneticPlugin", "start", [type]);
                 break;
             default:
+        }
+    },
+    scan: function(sensor, type, callback){
+        switch(sensor){
+            case 'wifi':
+                cordova.exec(callback, function(err){
+                    callback('oops');
+                }, "WifiCollector", "scan", []);
+                break;
         }
     },
     stop: function(sensor, type, callback){

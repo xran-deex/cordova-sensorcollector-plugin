@@ -19,7 +19,6 @@ public class GeomagnetSensorListener implements SensorEventListener {
     ////// SensorEvent interface
     @Override
     public void onSensorChanged(SensorEvent event) {
-        Log.d("SENSOR", ""+event.values[0]);
         try {
             JSONArray object = new JSONArray(event.values);
             PluginResult pgRes = new PluginResult(PluginResult.Status.OK, object);

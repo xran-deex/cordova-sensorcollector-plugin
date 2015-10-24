@@ -13,10 +13,14 @@ import java.util.*;
 public class WifiCollector extends CordovaPlugin {
 
     private static String ACTION_SCAN = "scan";
+    private static String ACTION_START = "start";
+    private static String ACTION_STOP = "stop";
+
     Intent serivceIntent;
     CallbackContext callbackContext;
     WifiManager mWifiManager;
     List<ScanResult> scanResults;
+    BroadcastReceiver reciever;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -28,11 +32,11 @@ public class WifiCollector extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         this.callbackContext = callbackContext;
         Log.d("WIFI", action);
-        if(ACTION_SCAN.equals(action)){
-            PluginResult pgRes = new PluginResult(PluginResult.Status.OK, "");
+        if(ACTION_START.equals(action)){
+            PluginResult pgRes = new PluginResult(PluginResult.Status.OK, "Registered");
             pgRes.setKeepCallback(true);
             mWifiManager = (WifiManager) this.cordova.getActivity().getSystemService(Context.WIFI_SERVICE);
-            this.cordova.getActivity().registerReceiver(new BroadcastReceiver()
+            this.reciever = new BroadcastReceiver()
             {
                 @Override
                 public void onReceive(Context c, Intent intent)
@@ -40,10 +44,24 @@ public class WifiCollector extends CordovaPlugin {
                    List<ScanResult> scanResults = mWifiManager.getScanResults();
                    handleResults(scanResults);
                 }
-            }, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            };
+            this.cordova.getActivity().registerReceiver(this.reciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            callbackContext.sendPluginResult(pgRes);
+            Log.d("WIFI", "inside " + action);
+            return true;
+        } else if (ACTION_SCAN.equals(action)){
+            PluginResult pgRes = new PluginResult(PluginResult.Status.OK, "");
+            pgRes.setKeepCallback(true);
+            mWifiManager = (WifiManager) this.cordova.getActivity().getSystemService(Context.WIFI_SERVICE);
             mWifiManager.startScan();
             callbackContext.sendPluginResult(pgRes);
             Log.d("WIFI", "inside " + action);
+            return true;
+        } else if (ACTION_STOP.equals(action)){
+            if(this.reciever != null) {
+                this.cordova.getActivity().unregisterReceiver(this.reciever);
+                this.reciever = null;
+            }
             return true;
         }
         return false;
