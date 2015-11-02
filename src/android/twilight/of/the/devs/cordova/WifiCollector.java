@@ -50,7 +50,7 @@ public class WifiCollector extends CordovaPlugin {
             Log.d("WIFI", "inside " + action);
             return true;
         } else if (ACTION_SCAN.equals(action)){
-            PluginResult pgRes = new PluginResult(PluginResult.Status.OK, "");
+            PluginResult pgRes = new PluginResult(PluginResult.Status.OK, []);
             pgRes.setKeepCallback(true);
             mWifiManager = (WifiManager) this.cordova.getActivity().getSystemService(Context.WIFI_SERVICE);
             mWifiManager.startScan();

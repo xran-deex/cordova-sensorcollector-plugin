@@ -5,7 +5,6 @@
     <description>Cordova SensorCollector Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,sensorcollector</keywords>
-    <dependency id="cordova-plugin-geolocation" />
     <js-module src="www/sensorcollector.js" name="sensorcollector">
         <clobbers target="sensorcollector" />
     </js-module>
